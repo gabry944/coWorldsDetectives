@@ -4,20 +4,20 @@ using System.Collections;
 public class spiritVision : MonoBehaviour {
 
     public Camera cam;
-    public Camera notCam;
+    public bool start = false;
+    public bool update = false;
 
     private NewtonVR.NVRHand hand;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
+        start = true;
         hand = GetComponent<NewtonVR.NVRHand>();
-        cam.enabled = true;
-        notCam.enabled = false;
-        Debug.Log("camera switched");
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void Update() {
+        update = true;
         if (hand.UseButtonPressed)
         {
             Debug.Log("button pressed");

@@ -4,23 +4,34 @@ using System.Collections;
 public class spiritVision : MonoBehaviour {
 
     public Camera cam;
-    public bool start = false;
-    public bool update = false;
 
     private NewtonVR.NVRHand hand;
 
     // Use this for initialization
     void Start() {
-        start = true;
         hand = GetComponent<NewtonVR.NVRHand>();
 	}
 	
 	// Update is called once per frame
 	void Update() {
-        update = true;
         if (hand.UseButtonPressed)
         {
             Debug.Log("button pressed");
+            Show();
         }
+        Hide();
 	}
+
+    // Turn on the culling bit using an OR operation:
+    private void Show()
+    {
+        cam.cullingMask |= 1 << LayerMask.NameToLayer("Spirit vision");
+    }
+
+    // Turn off the culling bit using an AND operation with the complement of the shifted int:
+    private void Hide()
+    {
+        Debug.Log("hide");
+        cam.cullingMask &= ~(1 << LayerMask.NameToLayer("Spirit vision"));
+    }
 }

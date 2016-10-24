@@ -34,6 +34,10 @@ public class footstepBehavior : MonoBehaviour
         Vector3 startPosLeft = new Vector3(path[0].x, path[0].y + 0.001f, path[0].z - stepWith/2);
         Vector3 startPosRight = new Vector3(path[0].x, path[0].y + 0.001f, path[0].z + stepWith/2);
 
+        stepsLeft = new List<Vector3>();
+        stepsRight = new List<Vector3>();
+        stepRotation = new List<float>();
+
         footstepsLeft = new GameObject[trackLength];
         footstepsRight = new GameObject[trackLength];
         rotaionAxis = new Vector3(0f, 1f, 0f);
@@ -70,9 +74,10 @@ public class footstepBehavior : MonoBehaviour
             Vector3 direction = path[step + 1] - path[step];
             int noOfParts = (int)(dist / stepSize);
             int part = 0;
-            while (part < noOfParts - 1)
-            {
-                Vector3 posLeft = path[step] + (stepSize * part) * direction + new Vector3(0f, 0.001f, -stepWith / 2);
+            //while (part < noOfParts - 1)
+            //{
+               // Vector3 posLeft = path[step] + (stepSize * part) * direction + new Vector3(0f, 0.001f, -stepWith / 2);
+                Vector3 posLeft = path[step] + new Vector3(0f, 0.001f, -stepWith / 2);
                 stepsLeft.Add(posLeft);
                 stepRotation.Add(rotation);
                 part++;
@@ -81,7 +86,7 @@ public class footstepBehavior : MonoBehaviour
                 stepsRight.Add(posRight);
                 stepRotation.Add(rotation);
                 part++;
-            }
+            //}
             step++;
         }
 
@@ -92,8 +97,8 @@ public class footstepBehavior : MonoBehaviour
             Vector3 direction = path[step + 1] - path[step];
             int noOfParts =(int) (dist/stepSize);
             int part = 0;
-            while (part < noOfParts-1)
-            {
+            //while (part < noOfParts-1)
+            //{
                 Vector3 posLeft = path[step]+ (stepSize*part)*direction + new Vector3(0f, 0.001f, -stepWith / 2);
                 stepsLeft.Add(posLeft);
                 stepRotation.Add(rotation);
@@ -103,7 +108,7 @@ public class footstepBehavior : MonoBehaviour
                 stepsRight.Add(posRight);
                 stepRotation.Add(rotation);
                 part++;
-            }
+           // }
             step++;
         }
     }
@@ -119,11 +124,13 @@ public class footstepBehavior : MonoBehaviour
             {
                 if (stepsLeft.Count > 0 )
                 {
+                    Debug.Log(" stepsLeft[0] " + stepsLeft[0]);
                     footstepsLeft[itteration].transform.position = stepsLeft[0];
                     footstepsLeft[itteration].transform.Rotate(rotaionAxis, stepRotation[0]);
                     stepsLeft.RemoveAt(0);
                     stepRotation.RemoveAt(0);
                 }
+                left = false;
 
             }
             else
@@ -134,8 +141,10 @@ public class footstepBehavior : MonoBehaviour
                     footstepsRight[itteration].transform.Rotate(rotaionAxis, stepRotation[0]);
                     stepsRight.RemoveAt(0);
                 }
+                left = true;
             }
 
+            Debug.Log(" walk stepsRight.Count = " + stepsRight.Count );
             itteration++;            
         }
     }
@@ -148,6 +157,8 @@ public class footstepBehavior : MonoBehaviour
             itteration = 0;
             calculateRoute();
             playWalk = true;
+            left = true;
+            Debug.Log("playwalk");
         }
     }
 

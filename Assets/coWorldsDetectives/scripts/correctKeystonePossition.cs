@@ -23,8 +23,17 @@ public class correctKeystonePossition : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
+        /*if (other == null)
+            Debug.Log("other");
+        if (other.gameObject == null)
+            Debug.Log("other.gameObject");
+        if (other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>() == null)
+            Debug.Log("other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>()");
+        if (other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand == null)
+            Debug.Log("other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand");
+
         //if the keystone isn't held by the player
-        if(other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand == null)
+        if (other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand == null)
         {
             //Activate portal and place keystone at center of the closest sphere collider
             Vector3 teleporterPos = other.gameObject.transform.position;
@@ -49,7 +58,7 @@ public class correctKeystonePossition : MonoBehaviour {
                     break;
                 }
             }
-        }
+        }*/
     }
 
     //get the rotation of the keystone depending on which slot it is placed in

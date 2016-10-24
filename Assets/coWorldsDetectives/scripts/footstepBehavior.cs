@@ -28,7 +28,7 @@ public class footstepBehavior : MonoBehaviour
     void Start()
     {
         playWalk = false;
-        PlayWalk();
+        //PlayWalk();
 
         startRot = getCurrentAngle(new Vector2(-1, 0), new Vector2(path[1].x- path[0].x, path[1].z- path[0].z));
         Vector3 startPosLeft = new Vector3(path[0].x, path[0].y + 0.001f, path[0].z - stepWith/2);

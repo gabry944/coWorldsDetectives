@@ -5,8 +5,9 @@ public class correctKeystonePossition : MonoBehaviour {
     
     public SphereCollider[] trigger;
     public string[] nextRooms;
-    private bool[] activated;
     //called with Application.LoadLevel("HighScore");
+
+    private bool[] activated;
 
     // Use this for initialization
     void Start () {

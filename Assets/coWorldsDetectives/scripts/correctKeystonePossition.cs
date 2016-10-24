@@ -22,10 +22,10 @@ public class correctKeystonePossition : MonoBehaviour {
         //place object at center of the closest sphere collider        
             Vector3 pos = other.gameObject.transform.position;
             for (int i = 0; i < trigger.Length; i++) {
-                Vector3 spherePos = transform.position - transform.rotation * trigger[i].center;
+                Vector3 spherePos = transform.position - transform.rotation * /*transform.localScale .*/ trigger[i].center;
                 Vector3 dist = spherePos - pos;
                 float length = dist.magnitude;
-                Debug.Log("dist: " + length);
+                Debug.Log("dist: " + length + " " + dist + " pos: " + pos);
                 if (length <= trigger[i].radius)
                 {
                     Debug.Log("Found closest");

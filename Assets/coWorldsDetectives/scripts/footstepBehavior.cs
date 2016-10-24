@@ -33,9 +33,8 @@ public class footstepBehavior : MonoBehaviour {
 
 
     void Start () {
-        //startPosLeft = new Vector3(-1.846f, 2.193111f, -2.272608f);
-        //startPosRight = new Vector3(-1.846f, 2.193111f, -2.126f);
         playWalk = false;
+        PlayWalk();
 
         for (int i = 0; i < footstepsleft.Length; i++)
         {

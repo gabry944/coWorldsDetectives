@@ -17,33 +17,38 @@ public class correctKeystonePossition : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
-        //if(Player not holding object)
-        //{
-        //place object at center of the closest sphere collider        
-            Vector3 pos = other.gameObject.transform.position;
+        //if the keystone isn't held by the player
+        if(other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand == null)
+        {
+            //place object at center of the closest sphere collider
+            Vector3 teleporterPos = other.gameObject.transform.position;
             for (int i = 0; i < trigger.Length; i++) {
-                Vector3 spherePos = transform.position - transform.rotation * /*transform.localScale .*/ trigger[i].center;
-                Vector3 dist = spherePos - pos;
+                //get the distance from this sphere trigger
+                Vector3 fromCenterPos = new Vector3(transform.localScale.x * trigger[i].center.x, transform.localScale.y * trigger[i].center.y, transform.localScale.z * trigger[i].center.z);
+                Vector3 spherePos = transform.position + transform.rotation * fromCenterPos;
+                Vector3 dist = spherePos - teleporterPos;
                 float length = dist.magnitude;
-                Debug.Log("dist: " + length + " " + dist + " pos: " + pos);
+
+                //if the keystone is inside this sphere
                 if (length <= trigger[i].radius)
                 {
-                    Debug.Log("Found closest");
+                    //put it in position
+                    //TODO: Animation
                     Vector3 rot = getRotForSphere(trigger[i]);
                     other.gameObject.transform.position.Set(spherePos.x, spherePos.y, spherePos.z);
                     other.gameObject.transform.eulerAngles = rot;
-                    Debug.Log("Repositioned");
                     break;
                 }
             }
-        //}
+        }
     }
 
+    //get the rotation of the keystone depending on which slot it is placed in
     private Vector3 getRotForSphere(SphereCollider sphere)
     {
-        if (sphere.center.z < 0)
+        if (sphere.center.y > 0)
             return new Vector3(0, 0, 0);
-        else if (sphere.center.z > 0)
+        else if (sphere.center.y < 0)
             return new Vector3(0,180,0);
         else if(sphere.center.x > 0)
             return new Vector3(0, -90, 0);

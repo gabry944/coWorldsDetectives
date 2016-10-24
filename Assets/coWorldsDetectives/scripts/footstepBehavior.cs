@@ -36,7 +36,7 @@ public class footstepBehavior : MonoBehaviour {
 
             GameObject right = Instantiate(rightFoot);
             right.transform.position = startPosRight;
-            footstepsLeft[i] = right;
+            footstepsRight[i] = right;
         }
 
         InvokeRepeating("Walk", 0, 1.0f);

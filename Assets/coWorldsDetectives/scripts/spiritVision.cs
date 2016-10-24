@@ -10,18 +10,12 @@ public class spiritVision : MonoBehaviour {
     // Use this for initialization
     void Start() {
         hand = GetComponent<NewtonVR.NVRHand>();
-        if (Display.displays.Length == 1)
-        {
-            Display.displays[1].Activate();
-            Debug.Log("activated camera");
-        }
 	}
 	
 	// Update is called once per frame
 	void Update() {
         if (hand.UseButtonPressed)
         {
-            Debug.Log("button pressed");
             Show();
         }
         else
@@ -37,7 +31,6 @@ public class spiritVision : MonoBehaviour {
     // Turn off the culling bit using an AND operation with the complement of the shifted int:
     private void Hide()
     {
-        Debug.Log("hide");
         cam.cullingMask &= ~(1 <<8);
     }
 }

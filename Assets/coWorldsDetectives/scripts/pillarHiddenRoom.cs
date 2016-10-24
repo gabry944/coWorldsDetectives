@@ -17,11 +17,14 @@ public class pillarHiddenRoom : MonoBehaviour {
     Vector3 transform1;
     Vector3 transform2;
     float lenght;
+    bool open;
 
     // Use this for initialization
     void Start () {
-        Unlock();
+       // Unlock();
         lenght = 0;
+        move = false;
+        open = false;
 
         transform1 = hiddenDoor1.GetComponent<Transform>().localPosition;
         transform2 = hiddenDoor2.GetComponent<Transform>().localPosition;
@@ -48,8 +51,13 @@ public class pillarHiddenRoom : MonoBehaviour {
     // Update is called once per frame
     public void Unlock()
     {
-        hiddenDoor1.GetComponent<Transform>().localPosition = movePos1;
-        hiddenDoor2.GetComponent<Transform>().localPosition = movePos2;
-        move = true;
+        if (!open)
+        {
+            hiddenDoor1.GetComponent<Transform>().localPosition = movePos1;
+            hiddenDoor2.GetComponent<Transform>().localPosition = movePos2;
+            move = true;
+            lenght = 0;
+            open = true;
+        }
     }
 }

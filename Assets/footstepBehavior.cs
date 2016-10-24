@@ -24,14 +24,17 @@ public class footstepBehavior : MonoBehaviour {
     public GameObject[] footstepsRight;
 
     public Vector3[] path;
+    public Vector3 startPosLeft;
+    public Vector3 startPosRight;
 
-    private Vector3 startPosLeft;
-    private Vector3 startPosRight;
     private bool playWalk;
+    private int step;
+    private int itteration;
+
 
     void Start () {
-        startPosLeft = new Vector3(-1.846f, 2.193111f, -2.272608f);
-        startPosRight = new Vector3(-1.846f, 2.193111f, -2.126f);
+        //startPosLeft = new Vector3(-1.846f, 2.193111f, -2.272608f);
+        //startPosRight = new Vector3(-1.846f, 2.193111f, -2.126f);
         playWalk = false;
 
         for (int i = 0; i < footstepsleft.Length; i++)
@@ -40,30 +43,43 @@ public class footstepBehavior : MonoBehaviour {
             footstepsRight[i].transform.position = startPosRight;
         }
 
+        InvokeRepeating("Walk", 0, 1.0f);
+
     }
 	
 	void Update () {
+        
+    }
+
+    private void Walk()
+    {
         if (playWalk)
         {
-            int j = 0;
-            do
+            if (step < path.Length)
             {
-                for (int i = 0; i < footstepsleft.Length; i++)
-                {
-                    Vector3 posLeft = path[i] + new Vector3(0f, 0f, 0.07f);
-                    Vector3 posRight = path[i] + new Vector3(0f, 0f, -0.07f);
-                    footstepsleft[i].transform.position = posLeft;
-                    footstepsRight[i].transform.position = posRight;
-                    j++;
-                    if (j >= path.Length)
-                        break;
-                }
-            } while (j < path.Length);
+                if (itteration >= footstepsleft.Length)
+                    itteration = 0;
+
+                Vector3 posLeft = path[step] + new Vector3(0f, 0f, 0.07f);
+                Vector3 posRight = path[step] + new Vector3(0f, 0f, -0.07f);
+                footstepsleft[itteration].transform.position = posLeft;
+                footstepsRight[itteration].transform.position = posRight;
+                step++;
+                itteration++;
+
+            }
+            else
+                playWalk = false;
         }
     }
 
     public void PlayWalk()
     {
-        playWalk = true;
+        if(!playWalk)
+        {
+            step = 0;
+            itteration = 0;
+            playWalk = true;
+        }
     }
 }

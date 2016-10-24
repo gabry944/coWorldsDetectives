@@ -3,30 +3,18 @@ using System.Collections;
 
 public class footstepBehavior : MonoBehaviour {
 
-    /*public GameObject left;
-    public GameObject left1;
-    public GameObject left2;
-    public GameObject left3;
-    public GameObject left4;
-    public GameObject left5;
-    public GameObject left6;
-
-    public GameObject right;
-    public GameObject right1;
-    public GameObject right2;
-    public GameObject right3;
-    public GameObject right4;
-    public GameObject right5;
-    public GameObject right6;*/
-
-    // Make sure these two have the same lenght 
-    public GameObject[] footstepsleft;
-    public GameObject[] footstepsRight;
+    public GameObject leftFoot;
+    public GameObject rightFoot;
 
     public Vector3[] path;
     public Vector3 startPosLeft;
     public Vector3 startPosRight;
+    public int trackLength; // the number of footsteps pairs that will be after each other in the animation
+    public int stepSize;
 
+
+    private GameObject[] footstepsLeft;
+    private GameObject[] footstepsRight;
     private bool playWalk;
     private int step;
     private int itteration;
@@ -36,14 +24,21 @@ public class footstepBehavior : MonoBehaviour {
         playWalk = false;
         PlayWalk();
 
-        for (int i = 0; i < footstepsleft.Length; i++)
+        footstepsLeft = new GameObject[trackLength];
+        footstepsRight = new GameObject[trackLength];
+
+        for (int i = 0; i < trackLength; i++)
         {
-            footstepsleft[i].transform.position = startPosLeft;
-            footstepsRight[i].transform.position = startPosRight;
+            GameObject left = Instantiate(leftFoot);
+            left.transform.position = startPosLeft;
+            footstepsLeft[i] = left;
+
+            GameObject right = Instantiate(rightFoot);
+            right.transform.position = startPosRight;
+            footstepsLeft[i] = right;
         }
 
         InvokeRepeating("Walk", 0, 1.0f);
-
     }
 	
 	void Update () {
@@ -56,12 +51,12 @@ public class footstepBehavior : MonoBehaviour {
         {
             if (step < path.Length)
             {
-                if (itteration >= footstepsleft.Length)
+                if (itteration >= footstepsLeft.Length)
                     itteration = 0;
 
-                Vector3 posLeft = path[step] + new Vector3(0f, 0f, 0.07f);
-                Vector3 posRight = path[step] + new Vector3(0f, 0f, -0.07f);
-                footstepsleft[itteration].transform.position = posLeft;
+                Vector3 posLeft = path[step] + new Vector3(0f, 0.001f, -0.07f);
+                Vector3 posRight = path[step] + new Vector3(0f, 0.001f, 0.07f);
+                footstepsLeft[itteration].transform.position = posLeft;
                 footstepsRight[itteration].transform.position = posRight;
                 step++;
                 itteration++;

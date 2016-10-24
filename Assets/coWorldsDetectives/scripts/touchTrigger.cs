@@ -18,7 +18,6 @@ public class touchTrigger : MonoBehaviour {
         script = activate.GetComponent<pillarHiddenRoom>();
         rb = keystone.GetComponent<Rigidbody>();
         rb.constraints = RigidbodyConstraints.FreezeAll;
-        Debug.Log("froze all");
 	}
 	
 	// Update is called once per frame

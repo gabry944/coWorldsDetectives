@@ -24,9 +24,7 @@ public class touchTrigger : MonoBehaviour {
     {
         if(other.gameObject.layer == 10)
         {
-            Debug.Log("Player touch");
             script.Unlock();
         }
-        Debug.Log("Not player touch");
     }
 }

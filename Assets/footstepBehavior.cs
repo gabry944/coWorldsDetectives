@@ -10,7 +10,8 @@ public class footstepBehavior : MonoBehaviour {
     public Vector3 startPosLeft;
     public Vector3 startPosRight;
     public int trackLength; // the number of footsteps pairs that will be after each other in the animation
-    public int stepSize;
+    public float stepSize;
+    public float stepWith; 
 
 
     private GameObject[] footstepsLeft;
@@ -54,8 +55,8 @@ public class footstepBehavior : MonoBehaviour {
                 if (itteration >= footstepsLeft.Length)
                     itteration = 0;
 
-                Vector3 posLeft = path[step] + new Vector3(0f, 0.001f, -0.07f);
-                Vector3 posRight = path[step] + new Vector3(0f, 0.001f, 0.07f);
+                Vector3 posLeft = path[step] + new Vector3(0f, 0.001f, -stepWith/2);
+                Vector3 posRight = path[step] + new Vector3(0f, 0.001f, stepWith/2);
                 footstepsLeft[itteration].transform.position = posLeft;
                 footstepsRight[itteration].transform.position = posRight;
                 step++;

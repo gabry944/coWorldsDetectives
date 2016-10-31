@@ -31,8 +31,9 @@ public class footstepBehavior : MonoBehaviour
 
         Vector2 line = new Vector2(path[1].x - path[0].x, path[1].z - path[0].z);
         startRot = Vector2.Angle(new Vector2(0,-1), line);
-        Debug.Log("StartRot = " + startRot);
+       // Debug.Log("StartRot = " + startRot);
         Vector2 ortLine = PerpendicularClockwise(line);
+        ortLine.Normalize();
 
         Vector3 startPosLeft = new Vector3(path[0].x + ortLine.x * stepWith / 2, path[0].y + 0.001f, path[0].z + ortLine.y *stepWith /2);
         Vector3 startPosRight = new Vector3(path[0].x - ortLine.x * stepWith / 2, path[0].y + 0.001f, path[0].z - ortLine.y * stepWith /2);
@@ -58,14 +59,14 @@ public class footstepBehavior : MonoBehaviour
             footstepsRight[i] = right;
         }
 
-        Debug.Log("footstepsRight[0].transform.rotation = " + footstepsRight[0].transform.rotation +" "+ footstepsRight[0].transform.rotation.eulerAngles);
+       // Debug.Log("footstepsRight[0].transform.rotation = " + footstepsRight[0].transform.rotation +" "+ footstepsRight[0].transform.rotation.eulerAngles);
 
         leftFoot.SetActive(false);
         rightFoot.SetActive(false);
 
         calculateRoute();
         InvokeRepeating("Walk", 0, 1.0f);
-        PlayWalk();
+        //PlayWalk();
     }
 
     void Update()
@@ -76,43 +77,73 @@ public class footstepBehavior : MonoBehaviour
     private void calculateRoute()
     {
         int step = 0;
+        float dist;
         Quaternion rotation;
+        Vector2 line;
+        Vector2 ortLine;
+        Vector3 posLeft;
+        Vector3 posRight;
+        Vector3 direction;
 
-        while (step < path.Length -1)
+        while (step < path.Length - 1)
         {
-            Vector2 line = new Vector2(path[step + 1].x - path[step].x, path[step + 1].z - path[step].z);
-            Vector2 ortLine = PerpendicularClockwise(line);
+            line = new Vector2(path[step + 1].x - path[step].x, path[step + 1].z - path[step].z);
+            ortLine = PerpendicularClockwise(line);
+            ortLine.Normalize();
             rotation = getCurrentAngle(line);
-            float dist = Vector2.Distance(new Vector2(path[step].x, path[step].z), new Vector2(path[step+1].x, path[step+1].z));
+            dist = Vector2.Distance(new Vector2(path[step].x, path[step].z), new Vector2(path[step + 1].x, path[step + 1].z));
 
-            Vector3 direction = path[step + 1] - path[step];
-            int noOfParts = (int) (dist/stepSize);
+            direction = path[step + 1] - path[step];
+            direction.Normalize();
+            int noOfParts = (int)(dist / stepSize);
             int part = 0;
-            
-            Vector3 posLeft = path[step] + new Vector3(ortLine.x * stepWith / 2, 0.001f, ortLine.y * stepWith / 2);
-            stepsLeft.Add(posLeft);
-            stepRotation.Add(rotation);
-            Vector3 posRight = path[step] + new Vector3(-ortLine.x * stepWith / 2, 0.001f, -ortLine.y * stepWith / 2);
-            stepsRight.Add(posRight);
-            stepRotation.Add(rotation);
-            part++;
 
+            if (step > 0)
+            { 
+                //add standing footsteps for the point 
+                posLeft = path[step] + new Vector3(ortLine.x * stepWith / 2, 0.001f, ortLine.y * stepWith / 2);
+                stepsLeft.Add(posLeft);
+                stepRotation.Add(rotation);
 
-            while (part < noOfParts-1)
+                posRight = path[step] + new Vector3(-ortLine.x * stepWith / 2, 0.001f, -ortLine.y * stepWith / 2);
+                stepsRight.Add(posRight);
+                stepRotation.Add(rotation);
+                part++;
+            }
+            //add walking footstep between points
+            while (part < noOfParts)
             {
                 posLeft = path[step]+ (stepSize*part)*direction + new Vector3(ortLine.x * stepWith / 2, 0.001f, ortLine.y * stepWith / 2);
                 stepsLeft.Add(posLeft);
                 stepRotation.Add(rotation);
                 part++;
 
-                posRight = path[step] + (stepSize*(part+1))*direction + new Vector3(-ortLine.x * stepWith / 2, 0.001f, -ortLine.y * stepWith / 2);
+                if (part < noOfParts)                 
+                    posRight = path[step] + (stepSize*part)*direction + new Vector3(-ortLine.x * stepWith / 2, 0.001f, -ortLine.y * stepWith / 2);
+                else
+                    posRight = path[step+1] + new Vector3(-ortLine.x * stepWith / 2, 0.001f, -ortLine.y * stepWith / 2);  // hide the step so that it look natural when footsteps dissapear in the back of the trail.
                 stepsRight.Add(posRight);
                 stepRotation.Add(rotation);
-                part++;
+                part++;                
             }
-            Debug.Log("step " + step + ", noOfParts " + noOfParts + ", stepsLeft.Count " + stepsLeft.Count + ", stepsRight.Count " + stepsRight.Count + ", rotation " + rotation  +" "+ rotation.eulerAngles);
+           // Debug.Log("step " + step + ", noOfParts " + noOfParts + ", stepsLeft.Count " + stepsLeft.Count + ", stepsRight.Count " + stepsRight.Count + ", rotation " + rotation  +" "+ rotation.eulerAngles);
             step++;
         }
+
+        // add standing footsteps for the end point 
+        line = new Vector2(path[step].x - path[step-1].x, path[step].z - path[step-1].z);
+        ortLine = PerpendicularClockwise(line);
+        ortLine.Normalize();
+        rotation = getCurrentAngle(line);
+
+        posLeft = path[step] + new Vector3(ortLine.x * stepWith / 2, 0.001f, ortLine.y * stepWith / 2);
+        stepsLeft.Add(posLeft);
+        stepRotation.Add(rotation);
+
+        posRight = path[step] + new Vector3(-ortLine.x * stepWith / 2, 0.001f, -ortLine.y * stepWith / 2);
+        stepsRight.Add(posRight);
+        stepRotation.Add(rotation);
+
     }
 
     private void Walk()
@@ -148,7 +179,7 @@ public class footstepBehavior : MonoBehaviour
                 }
                 left = true;
             }
-            Debug.Log(" walk stepsLeft.Count = " + stepsLeft.Count + ", stepsRight.Count = " + stepsRight.Count);
+            //Debug.Log(" walk stepsLeft.Count = " + stepsLeft.Count + ", stepsRight.Count = " + stepsRight.Count);
             if (stepsLeft.Count == 0 && stepsRight.Count == 0)
                 playWalk = false;
         }
@@ -170,7 +201,7 @@ public class footstepBehavior : MonoBehaviour
     {
         Vector2 startRot = new Vector2(0, -1);
         float angle = Vector2.Angle(startRot, a);
-        Debug.Log("Angle: " + angle);
+       // Debug.Log("Angle: " + angle);
         Quaternion quat = new Quaternion();
         quat.eulerAngles = new Vector3(0f, angle, 0f);
         return quat;

@@ -31,6 +31,6 @@ public class spiritVision : MonoBehaviour {
     // Turn off the culling bit using an AND operation with the complement of the shifted int:
     private void Hide()
     {
-        cam.cullingMask &= ~(1 <<8);
+        cam.cullingMask &= ~(1 << 8);
     }
 }

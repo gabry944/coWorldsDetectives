@@ -22,10 +22,8 @@ public class stepsTrigger : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Object entered: " + other.gameObject.name);
         if(other.gameObject.layer == 9)
         {
-            Debug.Log("Spirit hand entered");
             script.PlayWalk();
         }
     }

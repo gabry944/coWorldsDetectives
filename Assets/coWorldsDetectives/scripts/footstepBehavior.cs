@@ -193,7 +193,6 @@ public class footstepBehavior : MonoBehaviour
             RightStepIt = 0;
             playWalk = true;
             left = true;
-            Debug.Log("playwalk");
         }
     }
 

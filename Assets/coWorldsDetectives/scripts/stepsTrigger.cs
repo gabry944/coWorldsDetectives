@@ -2,17 +2,17 @@
 using System.Collections;
 
 [RequireComponent(typeof(Collider))]
-public class touchTrigger : MonoBehaviour {
+public class stepsTrigger : MonoBehaviour {
 
     public GameObject activate;
-    private footstepsbehavior script;
+    private footstepBehavior script;
     private Collider col;
 
 	// Use this for initialization
 	void Start () {
         col = GetComponent<Collider>();
         col.isTrigger = true;
-        script = activate.GetComponent<pillarHiddenRoom>();
+        script = activate.GetComponent<footstepBehavior>();
 	}
 	
 	// Update is called once per frame

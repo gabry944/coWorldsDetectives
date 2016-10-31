@@ -4,10 +4,16 @@ using System.Collections;
 public class correctKeystonePossition : MonoBehaviour {
     
     public SphereCollider[] trigger;
+    public string[] nextRooms;
+    //called with Application.LoadLevel("HighScore");
 
-	// Use this for initialization
-	void Start () {
+    private bool[] activated;
 
+    // Use this for initialization
+    void Start () {
+        activated = new bool[4];
+        for (int i = 0; i < 4; i++)
+            activated[i] = false;
 	}
 	
 	// Update is called once per frame
@@ -17,10 +23,19 @@ public class correctKeystonePossition : MonoBehaviour {
 
     void OnTriggerStay(Collider other)
     {
+        /*if (other == null)
+            Debug.Log("other");
+        if (other.gameObject == null)
+            Debug.Log("other.gameObject");
+        if (other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>() == null)
+            Debug.Log("other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>()");
+        if (other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand == null)
+            Debug.Log("other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand");
+
         //if the keystone isn't held by the player
-        if(other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand == null)
+        if (other.gameObject.GetComponent<NewtonVR.NVRInteractableItem>().AttachedHand == null)
         {
-            //place object at center of the closest sphere collider
+            //Activate portal and place keystone at center of the closest sphere collider
             Vector3 teleporterPos = other.gameObject.transform.position;
             for (int i = 0; i < trigger.Length; i++) {
                 //get the distance from this sphere trigger
@@ -32,6 +47,9 @@ public class correctKeystonePossition : MonoBehaviour {
                 //if the keystone is inside this sphere
                 if (length <= trigger[i].radius)
                 {
+                    //activate the direction of the portal
+                    activated[i] = true;
+
                     //put it in position
                     //TODO: Animation
                     Vector3 rot = getRotForSphere(trigger[i]);
@@ -40,7 +58,7 @@ public class correctKeystonePossition : MonoBehaviour {
                     break;
                 }
             }
-        }
+        }*/
     }
 
     //get the rotation of the keystone depending on which slot it is placed in

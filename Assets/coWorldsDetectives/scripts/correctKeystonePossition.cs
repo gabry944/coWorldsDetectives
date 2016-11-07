@@ -7,7 +7,7 @@ public class correctKeystonePossition : MonoBehaviour {
     public string[] nextRooms;
     //called with Application.LoadLevel("HighScore");
 
-    private bool[] activated;
+    public bool[] activated;
 
     // Use this for initialization
     void Start () {

@@ -12,6 +12,7 @@ public class footstepBehavior : MonoBehaviour
     public int trackLength; // the number of footsteps pairs that will be after each other in the animation
     public float stepSize;
     public float stepWith;
+    public bool done;
 
     private GameObject[] footstepsLeft;
     private GameObject[] footstepsRight;
@@ -28,6 +29,7 @@ public class footstepBehavior : MonoBehaviour
     void Start()
     {
         playWalk = false;
+        done = false;
 
         Vector2 line = new Vector2(path[1].x - path[0].x, path[1].z - path[0].z);
         startRot = Vector2.Angle(new Vector2(0,-1), line);
@@ -181,7 +183,15 @@ public class footstepBehavior : MonoBehaviour
             }
             //Debug.Log(" walk stepsLeft.Count = " + stepsLeft.Count + ", stepsRight.Count = " + stepsRight.Count);
             if (stepsLeft.Count == 0 && stepsRight.Count == 0)
-                playWalk = false;
+            {
+                if (done ==  false)
+                {
+                    done = true;
+                    calculateRoute();
+                }
+                else
+                    playWalk = false;                
+            }
         }
     }
 

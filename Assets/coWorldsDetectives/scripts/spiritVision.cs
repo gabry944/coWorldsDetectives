@@ -5,21 +5,22 @@ public class spiritVision : MonoBehaviour {
 
     public Camera cam;
 
-    private NewtonVR.NVRHand hand;
+    //private NewtonVR.NVRHand hand;
 
     // Use this for initialization
     void Start() {
-        hand = GetComponent<NewtonVR.NVRHand>();
+        //hand = GetComponent<NewtonVR.NVRHand>();
+        Show();
 	}
 	
 	// Update is called once per frame
 	void Update() {
-        if (hand.UseButtonPressed)
+        /*if (hand.UseButtonPressed)
         {
             Show();
         }
         else
-            Hide();
+            Hide();*/
 	}
 
     // Turn on the culling bit using an OR operation:

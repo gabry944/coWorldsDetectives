@@ -5,7 +5,8 @@ using System.Collections;
 public class touchListener : MonoBehaviour {
 
     public bool activated = false;
-
+    public bool enter = false;
+    public bool leave = false;
     private Collider box;
 
 	// Use this for initialization
@@ -24,6 +25,17 @@ public class touchListener : MonoBehaviour {
         if(other.gameObject.layer == 10)
         {
             activated = true;
+            enter = true;
         }
     }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.layer == 10)
+        {
+            leave = true;
+        }
+        
+    }
+
 }

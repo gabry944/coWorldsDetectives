@@ -17,7 +17,7 @@ public class LoadLevel : MonoBehaviour {
     // Use this for initialization
     void Start () {
 	    teleporterTransform = GetComponent<Transform>();
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -26,10 +26,15 @@ public class LoadLevel : MonoBehaviour {
         {
             if (activated[i])
             {
-                float headDist = (playerHead.transform.position - teleporterTransform.position).magnitude;
-                float handDist = (playerHand.transform.position - teleporterTransform.position).magnitude;
+                Vector2 headPos = new Vector2(playerHead.transform.position.x, playerHead.transform.position.z);
+                Vector2 handPos = new Vector2(playerHand.transform.position.x, playerHand.transform.position.z);
+                Vector2 teleportPos = new Vector2(teleporterTransform.position.x, teleporterTransform.position.z);
+                float headDist = (headPos - teleportPos).magnitude;
+                float handDist = (handPos - teleportPos).magnitude;
                 if(headDist < teleportRadius && handDist < teleportRadius)
                     Teleport();
+                else
+                    Debug.Log("headDist: " + headDist + " handDist: " + handDist);
             }
         }
     }
@@ -42,7 +47,12 @@ public class LoadLevel : MonoBehaviour {
         whiteScreen.GetComponent<MeshRenderer>().material.color = newColor;
 
         //when the user sees only white, load next level
-        if(alpha > 0.99)
-            Application.LoadLevel(level);        
+        if (alpha > 0.99)
+        {
+            Debug.Log("Teleport");
+            Application.LoadLevel(level);
+        }
+        else
+            Debug.Log("alpha: " + alpha);
     }
 }

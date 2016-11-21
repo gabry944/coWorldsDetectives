@@ -11,18 +11,17 @@ public class moveBunny : MonoBehaviour {
     private Vector3 direction;
     private float totalDistance = 0;
     private float walkedDistance = 0;
+    private AudioSource sound;
+    private Vector3 startPosition;
+    private bool started = false;
 
 	// Use this for initialization
 	void Start () {
         anim = GetComponent<Animator>();
-        //update animator
-        moving = true;
-        anim.SetBool("Moving", moving);
-
-        direction = goalPos - gameObject.transform.position;
-        totalDistance = direction.magnitude;
-        direction.Normalize();
-	}
+        sound = GetComponent<AudioSource>();
+        startPosition = gameObject.transform.position;
+        gameObject.transform.position = new Vector3(0, -10, 0);
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -36,8 +35,30 @@ public class moveBunny : MonoBehaviour {
                 //update animator
                 moving = false;
                 anim.SetBool("Moving", moving);
-                //gameObject.transform.position = goalPos;     
+                //gameObject.transform.position = goalPos; 
+                sound.Stop();    
             }
         }
+
+        if(GameState.Instance.end && !started)
+        {
+            StartMoving();
+            started = true;
+        }
 	}
+
+    void StartMoving()
+    {
+        gameObject.transform.position = new Vector3(startPosition.x, startPosition.y, startPosition.z);
+
+        //update animator
+        moving = true;
+        anim.SetBool("Moving", moving);
+
+        direction = goalPos - gameObject.transform.position;
+        totalDistance = direction.magnitude;
+        direction.Normalize();
+
+        sound.Play();
+    }
 }

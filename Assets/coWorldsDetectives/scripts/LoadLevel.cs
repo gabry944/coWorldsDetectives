@@ -18,6 +18,7 @@ public class LoadLevel : MonoBehaviour {
     private bool teleport = false;
     private AudioSource sound;
     private bool soundStarted = false;
+    private bool loading = false;
 
     // Use this for initialization
     void Start () {
@@ -71,7 +72,7 @@ public class LoadLevel : MonoBehaviour {
             }
         }
 
-        if (teleport)
+        if (teleport && !loading)
         {
             Teleport();
         }
@@ -96,7 +97,10 @@ public class LoadLevel : MonoBehaviour {
         {
             Debug.Log("Teleport");
             GameState.Instance.arrived_with_teleporter = true;
+            GameState.Instance.startedMusicInRoom = false;
+            GameState.Instance.room++;
             teleport = false;
+            loading = true;
             Application.LoadLevelAsync(level);
             start = true;
             newColor.a = 1;

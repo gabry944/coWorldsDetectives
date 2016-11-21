@@ -19,6 +19,8 @@ public class pillarHiddenRoom : MonoBehaviour {
     float lenght;
     bool open;
 
+    private AudioSource sound;
+
     // Use this for initialization
     void Start () {
        // Unlock();
@@ -28,6 +30,8 @@ public class pillarHiddenRoom : MonoBehaviour {
 
         transform1 = hiddenDoor1.GetComponent<Transform>().localPosition;
         transform2 = hiddenDoor2.GetComponent<Transform>().localPosition;
+
+        sound = GetComponent<AudioSource>();
     }
 	
 	// Update is called once per frame
@@ -58,6 +62,8 @@ public class pillarHiddenRoom : MonoBehaviour {
             move = true;
             lenght = 0;
             open = true;
+            sound.Play();
+            Debug.Log("Playing");
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections;
 public class touchFollowGame : MonoBehaviour {
 
     public Light[] lights;
+    public Light[] SpiritLights;
     public GameObject[] buttons;
     public GameObject keystone;
     public float lightTime = 1;
@@ -23,11 +24,16 @@ public class touchFollowGame : MonoBehaviour {
 	void Start () {
         CreateGameOrder();
 
-        for(int i = 0; i < lights.Length; i++)
+        for(int i = 0; i < SpiritLights.Length; i++)
+        {
+            SpiritLights[i].intensity = 0;
+        }
+
+        for (int i = 0; i < lights.Length; i++)
         {
             lights[i].intensity = 0;
         }
-	}
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -40,9 +46,9 @@ public class touchFollowGame : MonoBehaviour {
             if (currentTime < lightTime)
             {
                 if(lightOn)
-                    lights[order[0]].intensity = 2;
+                    SpiritLights[order[0]].intensity = 2;
                 else
-                    lights[order[0]].intensity = 0;
+                    SpiritLights[order[0]].intensity = 0;
             }
             else
             {
@@ -67,16 +73,23 @@ public class touchFollowGame : MonoBehaviour {
                 //if current cube should still be lit
                 if (currentTime < lightTime)
                 {
-                    lights[order[current]].intensity = 1;
-                    if(order[current] == 1)
-                        lights[order[current]].intensity = 2;
+                    if (lightOn)
+                    {
+                        SpiritLights[order[current]].intensity = 1;
+                        if (order[current] == 1)
+                            SpiritLights[order[current]].intensity = 2;
+                    }
+                    else
+                        SpiritLights[order[current]].intensity = 0;
                 }
                 else
                 {
-                    lights[order[current]].intensity = 0;
+                    SpiritLights[order[current]].intensity = 0;
                     currentTime = 0;
-                    current++;
+                    if(lightOn)
+                        current++;
                     lookingFor = 0;
+                    lightOn = !lightOn;
                 }
             }
             else
@@ -94,10 +107,10 @@ public class touchFollowGame : MonoBehaviour {
                 {
                     if (i == order[lookingFor])
                     {
+                        //go to the next step
                         Debug.Log("Activated " + i);
                         buttons[i].GetComponent<touchListener>().activated = false;
                         lookingFor++;
-
                         if (lookingFor == number)
                         {
                             number++;
@@ -127,16 +140,35 @@ public class touchFollowGame : MonoBehaviour {
                 }
             }
         }
+        
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i].GetComponent<touchListener>().enter)
+            {
+                //light up the stone for the player
+                lights[i].intensity = 2;
+                if (i == 1)
+                    lights[i].intensity = 3;
+
+                buttons[i].GetComponent<touchListener>().enter = false;
+            }
+            if (buttons[i].GetComponent<touchListener>().leave)
+            {
+                //make the stone normal again 
+                lights[i].intensity = 0;
+                buttons[i].GetComponent<touchListener>().leave = false;
+            }
+        }
     }
 
     void CreateGameOrder()
     {
-        order = new int[5];
+        order = new int[1];
         order[0] = 1;
-        order[1] = 0;
+        /*order[1] = 0;
         order[2] = 3;
         order[3] = 1;
-        order[4] = 2;
+        order[4] = 2;*/
     }
 
     public void StartGame()
@@ -145,5 +177,6 @@ public class touchFollowGame : MonoBehaviour {
         wait = false;
         beforeStart = false;
         number = 1;
+        lightOn = false;
     }
 }

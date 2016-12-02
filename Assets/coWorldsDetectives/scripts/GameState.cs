@@ -47,6 +47,7 @@ public class GameState : MonoBehaviour {
         }
         if (!startedMusicInRoom && room == 2)
         {
+            start = false;
             sound.clip = insideNight;
             sound.volume = 0.5f;
             sound.Play();
@@ -55,8 +56,19 @@ public class GameState : MonoBehaviour {
         }
         if (!startedMusicInRoom && room == 3)
         {
+            sound.clip = insideDay;
+            sound.volume = 0.4f;
+            sound.Play();
+            startedMusicInRoom = true;
+            Debug.Log("puzzle1");
+
+            //also activate kid
+            end = true;
+        }
+        if (!startedMusicInRoom && room == 4)
+        {
             sound.clip = done;
-            sound.volume = 0.5f;
+            sound.volume = 0.4f;
             sound.Play();
             startedMusicInRoom = true;
             Debug.Log("startRoom");

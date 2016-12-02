@@ -22,17 +22,19 @@ public class touchListener : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
+        //10 = playerHand
         if(other.gameObject.layer == 10)
         {
-            activated = true;
             enter = true;
         }
     }
 
     void OnTriggerExit(Collider other)
     {
+        //10 = playerHand
         if (other.gameObject.layer == 10)
         {
+            activated = true;
             leave = true;
         }
         

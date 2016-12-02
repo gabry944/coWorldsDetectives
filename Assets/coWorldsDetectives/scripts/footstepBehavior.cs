@@ -68,7 +68,7 @@ public class footstepBehavior : MonoBehaviour
 
         calculateRoute();
         InvokeRepeating("Walk", 0, 1.0f);
-        //PlayWalk();
+        PlayWalk();
     }
 
     void Update()

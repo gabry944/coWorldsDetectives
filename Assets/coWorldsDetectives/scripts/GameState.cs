@@ -47,19 +47,21 @@ public class GameState : MonoBehaviour {
 	void Update () {
 	    if(!startedMusicInRoom && roomId == 0)
         {
+            sound.clip = outside;
             if (!solved[roomId])
             {
-                sound.clip = insideDay;
                 Debug.Log("startRoom");
             }
             else
             {
-                sound.clip = done;
                 Debug.Log("startRoom solved");
 
                 //also activate kid
-                if(solved[2])
+                if (solved[2])
+                {
+                    sound.clip = done;
                     end = true;
+                }
             }
                 startedMusicInRoom = true;
                 sound.volume = 0.4f;

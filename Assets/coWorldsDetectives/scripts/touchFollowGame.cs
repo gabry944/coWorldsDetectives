@@ -46,31 +46,22 @@ public class touchFollowGame : MonoBehaviour {
         sound.clip = B;
 
         originalLightTime = lightTime;
+
+        //if room already solved
+        int id = GameState.Instance.roomId;
+        if (GameState.Instance.solved[id])
+        {
+            start = false;
+            solved = true;
+            //get keystone to fall down
+            keystone.GetComponent<Rigidbody>().useGravity = true;
+        }
     }
 	
 	// Update is called once per frame
 	void Update () {
         if(beforeStart)
         {
-            /*//plus time
-            currentTime += Time.deltaTime;
-
-            //if current cube should still be lit
-            if (currentTime < lightTime)
-            {
-                if(lightOn)
-                    SpiritLights[order[0]].intensity = 2;
-                else
-                    SpiritLights[order[0]].intensity = 0;
-            }
-            else
-            {
-                currentTime = 0;
-                lightOn = !lightOn;
-                if (lightOn)
-                    sound.Play();
-            }*/
-
             for (int i = 0; i < buttons.Length; i++)
             {
                 if (buttons[i].GetComponent<touchListener>().activated)

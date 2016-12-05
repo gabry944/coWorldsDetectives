@@ -23,7 +23,8 @@ public class SoundStartRoom : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(GameState.Instance.start)
+        //if room already solved
+        if (!GameState.Instance.solved[GameState.Instance.roomId])
         {
             if (!boolhello)
             {
@@ -34,7 +35,7 @@ public class SoundStartRoom : MonoBehaviour {
                     boolhello = true;
                 }
             }
-            else if(!boolmission)
+            else if (!boolmission)
             {
                 if (!sound.isPlaying)
                 {
@@ -44,7 +45,7 @@ public class SoundStartRoom : MonoBehaviour {
                 }
             }
         }
-        else if(GameState.Instance.end)
+        else if (GameState.Instance.end)
         {
             if (!boolmomAndDad)
             {

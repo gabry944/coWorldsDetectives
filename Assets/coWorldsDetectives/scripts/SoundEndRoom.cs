@@ -15,13 +15,18 @@ public class SoundEndRoom : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        if (!boolBabyBunny)
+        //if room already solved
+        int id = GameState.Instance.roomId;
+        if (!GameState.Instance.solved[id])
         {
-            if (!sound.isPlaying)
+            if (!boolBabyBunny)
             {
-                sound.clip = babyBunny;
-                sound.Play();
-                boolBabyBunny = true;
+                if (!sound.isPlaying)
+                {
+                    sound.clip = babyBunny;
+                    sound.Play();
+                    boolBabyBunny = true;
+                }
             }
         }
     }

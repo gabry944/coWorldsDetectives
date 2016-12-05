@@ -4,7 +4,10 @@ using System.Collections;
 [RequireComponent(typeof(AudioSource))]
 public class LoadLevel : MonoBehaviour {
 
-    public string level;
+    public string NorthLevel;
+    public string WestLevel;
+    public string SouthLevel;
+    public string EastLevel;
     public correctKeystonePossition keystoneScript;
     public float teleportRadius = 2;
     public GameObject playerHead;
@@ -12,6 +15,7 @@ public class LoadLevel : MonoBehaviour {
     public GameObject whiteScreen;
     public float alphaSpeed = 0.1f;
 
+    private string nextLevel;
     private bool[] activated;
     private Transform teleporterTransform;
     private bool start = true;
@@ -56,7 +60,7 @@ public class LoadLevel : MonoBehaviour {
         }
 
         activated = keystoneScript.activated;
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < activated.Length; i++)
         {
             if (activated[i])
             {
@@ -67,6 +71,17 @@ public class LoadLevel : MonoBehaviour {
                 float handDist = (handPos - teleportPos).magnitude;
                 if (headDist < teleportRadius && handDist < teleportRadius)
                 {
+                    //set teleport destination
+                    if (i == 1)
+                        nextLevel = NorthLevel;
+                    else if (i == 2)
+                        nextLevel = WestLevel;
+                    else if (i == 3)
+                        nextLevel = SouthLevel;
+                    else //if (i == 4)
+                        nextLevel = EastLevel;
+
+                    //activate teleport
                     teleport = true;
                 }
             }
@@ -98,10 +113,10 @@ public class LoadLevel : MonoBehaviour {
             Debug.Log("Teleport");
             GameState.Instance.arrived_with_teleporter = true;
             GameState.Instance.startedMusicInRoom = false;
-            GameState.Instance.room++;
+            GameState.Instance.changeRoom(nextLevel);
             teleport = false;
             loading = true;
-            Application.LoadLevelAsync(level);
+            Application.LoadLevelAsync(nextLevel);
             start = true;
             newColor.a = 1;
             whiteScreen.GetComponent<MeshRenderer>().material.color = newColor;

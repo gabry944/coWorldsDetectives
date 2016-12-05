@@ -24,6 +24,13 @@ public class moveWater : MonoBehaviour {
         deltaWaterMovement = new Vector3(0, 0.001f, 0);
         deltaTreeMovement = new Vector3(0, 0, 0.2f);
         sound = GetComponent<AudioSource>();
+
+        int id = GameState.Instance.roomId;
+        if (GameState.Instance.solved[id])
+        {
+            tree.transform.eulerAngles = new Vector3( tree.transform.eulerAngles.x, tree.transform.eulerAngles.y, 29);
+            water.transform.position = new Vector3(water.transform.position.x, -0.12f, water.transform.position.z);
+        }
     }
 	
 	// Update is called once per frame

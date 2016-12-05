@@ -35,7 +35,7 @@ public class pillarHiddenRoom : MonoBehaviour {
 
         //trust that gameState knows what room we are in.
         int id = GameState.Instance.roomId;
-        if (GameState.Instance.solved[id])
+        if (GameState.Instance.solved[id]) //gives array index out of range at start but works fine when revisiting this room
         {
             hiddenDoor1.GetComponent<Transform>().localPosition = hiddenDoor1.GetComponent<Transform>().localPosition + (direction * distance);
             hiddenDoor2.GetComponent<Transform>().localPosition = hiddenDoor2.GetComponent<Transform>().localPosition + (direction * distance);

@@ -34,7 +34,7 @@ public class LoadLevel : MonoBehaviour {
             Color newColor = whiteScreenPerson.GetComponent<MeshRenderer>().material.color;
             newColor.a = 1;
             whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
-            whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
+            whiteScreenSpirit.GetComponent<MeshRenderer>().material.color = newColor;
         }
     }
 	
@@ -48,14 +48,13 @@ public class LoadLevel : MonoBehaviour {
                 Color newColor = whiteScreenPerson.GetComponent<MeshRenderer>().material.color;
                 newColor.a = alpha;
                 whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
-                whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
+                whiteScreenSpirit.GetComponent<MeshRenderer>().material.color = newColor;
 
                 if (alpha < 0.01)
                 {
                     newColor.a = 0;
                     whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
-                    whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
-                    Debug.Log("Teleported");
+                    whiteScreenSpirit.GetComponent<MeshRenderer>().material.color = newColor;
                     start = false;
                 }
             }
@@ -101,7 +100,6 @@ public class LoadLevel : MonoBehaviour {
     {
         if (!soundStarted)
         {
-            Debug.Log("Sound");
             sound.Play();
             soundStarted = true;
         }
@@ -110,12 +108,11 @@ public class LoadLevel : MonoBehaviour {
         Color newColor = whiteScreenPerson.GetComponent<MeshRenderer>().material.color;
         newColor.a = alpha;
         whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
-        whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
+        whiteScreenSpirit.GetComponent<MeshRenderer>().material.color = newColor;
 
         //when the user sees only white, load next level
         if (alpha > 0.99)
         {
-            Debug.Log("Teleport");
             GameState.Instance.arrived_with_teleporter = true;
             GameState.Instance.startedMusicInRoom = false;
             GameState.Instance.changeRoom(nextLevel);
@@ -125,7 +122,7 @@ public class LoadLevel : MonoBehaviour {
             start = true;
             newColor.a = 1;
             whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
-            whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
+            whiteScreenSpirit.GetComponent<MeshRenderer>().material.color = newColor;
         }
     }
 }

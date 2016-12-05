@@ -19,8 +19,6 @@ public class correctKeystonePossition : MonoBehaviour {
             activated[i] = false;
 
         mr = light.GetComponent<MeshRenderer>();
-        if (mr)
-            Debug.Log("MeshRenderer" + mr.enabled);
 	}
 	
 	// Update is called once per frame

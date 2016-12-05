@@ -6,7 +6,7 @@ public class GameState : MonoBehaviour {
     public bool start = true;
     public bool arrived_with_teleporter = false;
     public static GameState Instance;
-    public int roomId;
+    public int roomId = 0;
     public bool startedMusicInRoom = true;
     public bool end = false;
     public bool[] solved;

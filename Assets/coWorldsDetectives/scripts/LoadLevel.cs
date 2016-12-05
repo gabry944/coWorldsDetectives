@@ -12,7 +12,8 @@ public class LoadLevel : MonoBehaviour {
     public float teleportRadius = 2;
     public GameObject playerHead;
     public GameObject playerHand;
-    public GameObject whiteScreen;
+    public GameObject whiteScreenPerson;
+    public GameObject whiteScreenSpirit;
     public float alphaSpeed = 0.1f;
 
     private string nextLevel;
@@ -30,9 +31,10 @@ public class LoadLevel : MonoBehaviour {
         sound = GetComponent<AudioSource>();
         if (GameState.Instance.arrived_with_teleporter)
         {
-            Color newColor = whiteScreen.GetComponent<MeshRenderer>().material.color;
+            Color newColor = whiteScreenPerson.GetComponent<MeshRenderer>().material.color;
             newColor.a = 1;
-            whiteScreen.GetComponent<MeshRenderer>().material.color = newColor;
+            whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
+            whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
         }
     }
 	
@@ -42,15 +44,17 @@ public class LoadLevel : MonoBehaviour {
         {
             if (GameState.Instance.arrived_with_teleporter)
             {
-                float alpha = whiteScreen.GetComponent<MeshRenderer>().material.color.a - Time.deltaTime * alphaSpeed;
-                Color newColor = whiteScreen.GetComponent<MeshRenderer>().material.color;
+                float alpha = whiteScreenPerson.GetComponent<MeshRenderer>().material.color.a - Time.deltaTime * alphaSpeed;
+                Color newColor = whiteScreenPerson.GetComponent<MeshRenderer>().material.color;
                 newColor.a = alpha;
-                whiteScreen.GetComponent<MeshRenderer>().material.color = newColor;
+                whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
+                whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
 
                 if (alpha < 0.01)
                 {
                     newColor.a = 0;
-                    whiteScreen.GetComponent<MeshRenderer>().material.color = newColor;
+                    whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
+                    whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
                     Debug.Log("Teleported");
                     start = false;
                 }
@@ -102,10 +106,11 @@ public class LoadLevel : MonoBehaviour {
             soundStarted = true;
         }
 
-        float alpha = whiteScreen.GetComponent<MeshRenderer>().material.color.a + Time.deltaTime * alphaSpeed;
-        Color newColor = whiteScreen.GetComponent<MeshRenderer>().material.color;
+        float alpha = whiteScreenPerson.GetComponent<MeshRenderer>().material.color.a + Time.deltaTime * alphaSpeed;
+        Color newColor = whiteScreenPerson.GetComponent<MeshRenderer>().material.color;
         newColor.a = alpha;
-        whiteScreen.GetComponent<MeshRenderer>().material.color = newColor;
+        whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
+        whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
 
         //when the user sees only white, load next level
         if (alpha > 0.99)
@@ -119,7 +124,8 @@ public class LoadLevel : MonoBehaviour {
             Application.LoadLevelAsync(nextLevel);
             start = true;
             newColor.a = 1;
-            whiteScreen.GetComponent<MeshRenderer>().material.color = newColor;
+            whiteScreenPerson.GetComponent<MeshRenderer>().material.color = newColor;
+            whiteScreenSpirit.GetComponent<Light>().intensity = newColor.a * 5;
         }
     }
 }

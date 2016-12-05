@@ -52,7 +52,6 @@ public class pillarHiddenRoom : MonoBehaviour {
         }
     }
 
-    // Update is called once per frame
     public void Unlock()
     {
         if (!open)
@@ -65,5 +64,6 @@ public class pillarHiddenRoom : MonoBehaviour {
             sound.Play();
             Debug.Log("Playing");
         }
+       
     }
 }

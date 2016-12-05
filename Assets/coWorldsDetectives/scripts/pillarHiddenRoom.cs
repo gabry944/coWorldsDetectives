@@ -4,6 +4,7 @@ using System.Collections;
 public class pillarHiddenRoom : MonoBehaviour {
     public GameObject hiddenDoor1;
     public GameObject hiddenDoor2;
+    public GameObject keystone;
 
     //change position sligtly so that we get ride of z-fighting
     public Vector3 movePos1;
@@ -14,24 +15,33 @@ public class pillarHiddenRoom : MonoBehaviour {
     public Vector3 direction;
     public float distance;
 
-    Vector3 transform1;
-    Vector3 transform2;
     float lenght;
     bool open;
+    private Rigidbody rb;
 
     private AudioSource sound;
-
+    
     // Use this for initialization
     void Start () {
-       // Unlock();
         lenght = 0;
         move = false;
         open = false;
 
-        transform1 = hiddenDoor1.GetComponent<Transform>().localPosition;
-        transform2 = hiddenDoor2.GetComponent<Transform>().localPosition;
-
         sound = GetComponent<AudioSource>();
+
+        //in order to kepp player from taking keystone from pillar 
+        rb = keystone.GetComponent<Rigidbody>();
+        rb.constraints = RigidbodyConstraints.FreezeAll;
+
+        //trust that gameState knows what room we are in.
+        int id = GameState.Instance.roomId;
+        if (GameState.Instance.solved[id])
+        {
+            hiddenDoor1.GetComponent<Transform>().localPosition = hiddenDoor1.GetComponent<Transform>().localPosition + (direction * distance);
+            hiddenDoor2.GetComponent<Transform>().localPosition = hiddenDoor2.GetComponent<Transform>().localPosition + (direction * distance);
+            open = true;
+            rb.constraints = RigidbodyConstraints.None;
+        }
     }
 	
 	// Update is called once per frame
@@ -63,7 +73,7 @@ public class pillarHiddenRoom : MonoBehaviour {
             open = true;
             sound.Play();
             Debug.Log("Playing");
+            rb.constraints = RigidbodyConstraints.None;
         }
-       
     }
 }

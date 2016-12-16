@@ -60,12 +60,11 @@ public class GameState : MonoBehaviour {
                 if (solved[2])
                 {
                     sound.clip = done;
-                    end = true;
                 }
             }
-                startedMusicInRoom = true;
-                sound.volume = 0.4f;
-                sound.Play();
+            startedMusicInRoom = true;
+            sound.volume = 0.3f;
+            sound.Play();
         }
         if (!startedMusicInRoom && roomId == 1)
         {
@@ -136,6 +135,8 @@ public class GameState : MonoBehaviour {
     {
         solved[roomId] = true;
         roomId = getId(name);
+        if(solved[2] == true)
+            end = true;
     }
 
     //returns -1 if no room with that name was in the list

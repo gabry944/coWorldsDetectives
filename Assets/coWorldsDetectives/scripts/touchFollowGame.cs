@@ -206,12 +206,12 @@ public class touchFollowGame : MonoBehaviour {
 
     void CreateGameOrder()
     {
-        order = new int[5];
+        order = new int[1];
         order[0] = 1;
-        order[1] = 0;
+        /*order[1] = 0;
         order[2] = 3;
         order[3] = 1;
-        order[4] = 2;
+        order[4] = 2;*/
     }
 
     public void StartGame()

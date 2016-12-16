@@ -51,14 +51,17 @@ public class moveBunny : MonoBehaviour {
     {
         gameObject.transform.position = new Vector3(startPosition.x, startPosition.y, startPosition.z);
 
-        //update animator
-        moving = true;
-        anim.SetBool("Moving", moving);
+        if (GameState.Instance.roomId == 0)
+        {
+            //update animator
+            moving = true;
+            anim.SetBool("Moving", moving);
 
-        direction = goalPos - gameObject.transform.position;
-        totalDistance = direction.magnitude;
-        direction.Normalize();
+            direction = goalPos - gameObject.transform.position;
+            totalDistance = direction.magnitude;
+            direction.Normalize();
 
-        sound.Play();
+            sound.Play();
+        }
     }
 }

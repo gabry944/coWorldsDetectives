@@ -8,7 +8,7 @@ public class LoadLevel : MonoBehaviour {
     public string WestLevel;
     public string SouthLevel;
     public string EastLevel;
-    public correctKeystonePossition keystoneScript;
+    public correctKeystonePosition keystoneScript;
     public float teleportRadius = 2;
     public GameObject playerHead;
     public GameObject playerHand;

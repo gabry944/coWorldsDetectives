@@ -1,10 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class correctKeystonePossition : MonoBehaviour {
+public class correctKeystonePosition : MonoBehaviour {
     
     public SphereCollider[] trigger;
-    public string[] nextRooms;
     //called with Application.LoadLevel("HighScore");
 
     public bool[] activated;

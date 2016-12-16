@@ -15,10 +15,10 @@ public class touchFollowGame : MonoBehaviour {
     private int current = 0;
     private float currentTime = 0;
     private bool beforeStart = false;
-    private bool lightOn = true;
+    private bool lightOn = false;
     private bool start = false;
     private bool wait = true;
-    private int lookingFor = 0;
+    private int lookingFor = -1;
     public bool solved = false;
 
     public AudioClip A;
@@ -27,6 +27,7 @@ public class touchFollowGame : MonoBehaviour {
     public AudioClip D;
     public AudioClip bad;
     private AudioSource sound;
+    public SoundEndRoom soundER;
 
     // Use this for initialization
     void Start () {
@@ -66,7 +67,11 @@ public class touchFollowGame : MonoBehaviour {
             {
                 if (buttons[i].GetComponent<touchListener>().activated)
                 {
+                    Debug.Log("Activated " + i);
+                    buttons[i].GetComponent<touchListener>().activated = false;
+                    Debug.Log("Starting");
                     StartGame();
+                    Debug.Log("Started");
                     break;
                 }
             }
@@ -133,6 +138,12 @@ public class touchFollowGame : MonoBehaviour {
             {
                 if (buttons[i].GetComponent<touchListener>().activated)
                 {
+                    if(lookingFor < 0)
+                    {
+                        buttons[i].GetComponent<touchListener>().activated = false;
+                        StartGame();
+                        return;
+                    }
                     if (i == order[lookingFor])
                     {
                         //go to the next step
@@ -156,6 +167,7 @@ public class touchFollowGame : MonoBehaviour {
                                 solved = true;
                                 //get keystone to fall down
                                 keystone.GetComponent<Rigidbody>().useGravity = true;
+                                soundER.PlayStart();
                             }
                         }
                     }
@@ -163,8 +175,7 @@ public class touchFollowGame : MonoBehaviour {
                     {
                         //raise the time the light should be off between error and loop
                         lightTime *= 3;
-                        sound.clip = bad;
-                        sound.Play();
+                        soundER.PlayWrong();
                         Debug.Log("incorrect");
                         buttons[i].GetComponent<touchListener>().activated = false;
                         wait = false;
@@ -206,21 +217,25 @@ public class touchFollowGame : MonoBehaviour {
 
     void CreateGameOrder()
     {
-        order = new int[1];
+        order = new int[5];
         order[0] = 1;
-        /*order[1] = 0;
+        order[1] = 0;
         order[2] = 3;
         order[3] = 1;
-        order[4] = 2;*/
+        order[4] = 2;
     }
 
     public void StartGame()
     {
+        Debug.Log("StartGame");
+        soundER.PlayStart();
         start = true;
         wait = false;
         beforeStart = false;
         number = 1;
         lightOn = false;
+        lightTime *= 3;
+        lookingFor = 0;
     }
 
     void playSound(int pos)

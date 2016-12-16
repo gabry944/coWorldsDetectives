@@ -4,6 +4,8 @@ using System.Collections;
 public class SoundEndRoom : MonoBehaviour {
 
     public AudioClip babyBunny;
+    public AudioClip startGame;
+    public AudioClip wrong;
     private AudioSource sound;
     private bool boolBabyBunny = false;
 
@@ -29,5 +31,17 @@ public class SoundEndRoom : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void PlayWrong()
+    {
+        sound.clip = wrong;
+        sound.Play();
+    }
+
+    public void PlayStart()
+    {
+        sound.clip = startGame;
+        sound.Play();
     }
 }

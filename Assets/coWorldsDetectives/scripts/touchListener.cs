@@ -23,6 +23,7 @@ public class touchListener : MonoBehaviour {
     void OnTriggerEnter(Collider other)
     {
         //10 = playerHand
+        //Debug.Log("Enter layer " + other.gameObject.layer);
         if(other.gameObject.layer == 10)
         {
             enter = true;
@@ -32,6 +33,7 @@ public class touchListener : MonoBehaviour {
     void OnTriggerExit(Collider other)
     {
         //10 = playerHand
+        //Debug.Log("Leave layer " + other.gameObject.layer);
         if (other.gameObject.layer == 10)
         {
             activated = true;

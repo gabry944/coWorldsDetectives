@@ -15,6 +15,7 @@ public class SoundStartRoom : MonoBehaviour {
     private bool boolmomAndDad = false;
     private bool boolhoney = false;
     private bool boolgoodJob = false;
+    private float currentTime = 0;
 
     // Use this for initialization
     void Start () {
@@ -28,12 +29,13 @@ public class SoundStartRoom : MonoBehaviour {
         {
             if (!boolhello)
             {
-                if (!sound.isPlaying)
+                if (currentTime > 10 && !sound.isPlaying)
                 {
                     sound.clip = hello;
                     sound.Play();
                     boolhello = true;
                 }
+                currentTime += Time.deltaTime;
             }
             else if (!boolmission)
             {

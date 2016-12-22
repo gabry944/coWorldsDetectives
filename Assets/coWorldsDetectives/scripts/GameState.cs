@@ -36,7 +36,7 @@ public class GameState : MonoBehaviour {
 
         roomId = 0;
         // at begining of game, all rooms are unsolved
-        solved = new bool[3];
+        solved = new bool[4];
         for (int i = 0; i < solved.Length; i++)
         {
             solved[i] = false;
@@ -45,7 +45,14 @@ public class GameState : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	    if(!startedMusicInRoom && roomId == 0)
+        if (!startedMusicInRoom && roomId == 0)
+        {
+            sound.clip = outside;
+            startedMusicInRoom = true;
+            sound.volume = 0.3f;
+            sound.Play();
+        }
+        if (!startedMusicInRoom && roomId == 1)
         {
             sound.clip = outside;
             if (!solved[roomId])
@@ -66,7 +73,7 @@ public class GameState : MonoBehaviour {
             sound.volume = 0.3f;
             sound.Play();
         }
-        if (!startedMusicInRoom && roomId == 1)
+        if (!startedMusicInRoom && roomId == 2)
         {
             if (!solved[roomId])
             {
@@ -84,7 +91,7 @@ public class GameState : MonoBehaviour {
             ////also activate kid
             //end = true;
         }
-        if (!startedMusicInRoom && roomId == 2)
+        if (!startedMusicInRoom && roomId == 3)
         {
             if (!solved[roomId])
             {
@@ -100,42 +107,14 @@ public class GameState : MonoBehaviour {
             sound.Play();
             startedMusicInRoom = true;
         }
-        if (!startedMusicInRoom && roomId == 2)
-        {
-            if (!solved[roomId])
-            {
-                Debug.Log("puzzle1");
-            }
-            else 
-            {
-                Debug.Log("puzzle1 solved");
-            }
-            sound.clip = insideDay;
-            sound.volume = 0.4f;
-            sound.Play();
-            startedMusicInRoom = true;
-
-            ////also activate kid
-            //end = true;
-        }
-        /*if (!startedMusicInRoom && room == 4)
-        {
-            sound.clip = done;
-            sound.volume = 0.4f;
-            sound.Play();
-            startedMusicInRoom = true;
-            Debug.Log("startRoom");
-
-            //also activate kid
-            end = true;
-        }*/
     }
 
     public void changeRoom(string name)
     {
         solved[roomId] = true;
+        Debug.Log(roomId + " = true");
         roomId = getId(name);
-        if(solved[2] == true)
+        if(solved[getId("endRoom")] == true)
             end = true;
     }
 
@@ -144,16 +123,33 @@ public class GameState : MonoBehaviour {
     {
         switch (name)
         {
-            case "startRoom":
+            case "menuRoom":
                 return 0;
-            case "puzzle1":
+            case "startRoom":
                 return 1;
-            case "endRoom":
+            case "puzzle1":
                 return 2;
+            case "endRoom":
+                return 3;
             default:
                 Debug.Log("Room with name " + name + " was not found");
                 return -1;
         }
     }
-
+    public string getRoom()
+    {
+        switch (roomId)
+        {
+            case 0:
+                return "menuRoom";
+            case 1:
+                return "startRoom";
+            case 2:
+                return "puzzle1";
+            case 3:
+                return "endRoom";
+            default:
+                return "null";
+        }
+    }
 }

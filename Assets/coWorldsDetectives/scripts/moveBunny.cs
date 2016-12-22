@@ -51,7 +51,7 @@ public class moveBunny : MonoBehaviour {
     {
         gameObject.transform.position = new Vector3(startPosition.x, startPosition.y, startPosition.z);
 
-        if (GameState.Instance.roomId == 0)
+        if (GameState.Instance.roomId == GameState.Instance.getId("startRoom"))
         {
             //update animator
             moving = true;
